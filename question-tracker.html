@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Question Tracker</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface2: #f1f0ec;
+    --border: rgba(0,0,0,0.09);
+    --border-md: rgba(0,0,0,0.15);
+    --text: #1a1a18;
+    --text2: #6b6a65;
+    --text3: #9b9a95;
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-mid: #5DCAA5;
+    --amber: #BA7517;
+    --amber-light: #FFF3DC;
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --red: #E24B4A;
+    --red-light: #FCEBEB;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #18181a;
+      --surface: #222224;
+      --surface2: #2a2a2d;
+      --border: rgba(255,255,255,0.08);
+      --border-md: rgba(255,255,255,0.14);
+      --text: #f0efe8;
+      --text2: #a09f98;
+      --text3: #6b6a65;
+      --green-light: #0a2e20;
+      --amber-light: #2e1e00;
+      --blue-light: #0a1e33;
+      --red-light: #2e0a0a;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .app {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .header-left p {
+    font-size: 14px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+  .header-badge {
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(29,158,117,0.25);
+    white-space: nowrap;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 580px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+  .stat-card.c-green .stat-value { color: var(--green); }
+  .stat-card.c-blue .stat-value { color: var(--blue); }
+  .stat-card.c-amber .stat-value { color: var(--amber); }
+
+  /* Progress */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 1.25rem;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .progress-meta { font-size: 13px; color: var(--text2); }
+  .progress-track {
+    height: 10px;
+    background: var(--surface2);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-mid), var(--green));
+    border-radius: 5px;
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    min-width: 0;
+  }
+  .progress-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+  }
+  .progress-tick { font-size: 11px; color: var(--text3); }
+
+  /* Two-column section */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .panel-title i { color: var(--text2); font-size: 16px; }
+
+  /* Settings */
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .setting-label { font-size: 13px; color: var(--text2); }
+  .setting-row input[type=number] {
+    width: 80px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px 8px;
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    background: var(--surface2);
+    color: var(--text);
+    outline: none;
+  }
+  .setting-row input[type=number]:focus { border-color: var(--green); }
+  .hint-text { font-size: 12px; color: var(--text3); margin-bottom: 12px; line-height: 1.5; }
+  .btn-reset {
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid rgba(226,75,74,0.3);
+    border-radius: 8px;
+    background: var(--red-light);
+    color: var(--red);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .btn-reset:hover { background: #f7c1c1; }
+
+  /* Forecast */
+  .forecast-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .forecast-row:last-child { border-bottom: none; }
+  .forecast-key { color: var(--text2); }
+  .forecast-val { font-weight: 600; color: var(--text); }
+  .forecast-val.green { color: var(--green); }
+  .forecast-val.amber { color: var(--amber); }
+  .forecast-val.red { color: var(--red); }
+
+  /* Calendar */
+  .calendar-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 1.25rem;
+  }
+  .cal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .cal-month-label { font-size: 15px; font-weight: 600; color: var(--text); }
+  .cal-nav-btns { display: flex; gap: 6px; align-items: center; }
+  .btn-icon {
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    background: var(--surface2);
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.15s;
+  }
+  .btn-icon:hover { background: var(--bg); color: var(--text); }
+  .btn-today {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    background: var(--surface2);
+    color: var(--text2);
+    cursor: pointer;
+  }
+  .btn-today:hover { color: var(--text); }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .cal-day-hdr {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    text-align: center;
+    padding: 4px 0 8px;
+    letter-spacing: 0.04em;
+  }
+  .cal-cell {
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s;
+    background: var(--surface);
+  }
+  .cal-cell:hover { border-color: var(--green); background: var(--green-light); }
+  .cal-cell.empty { border-color: transparent; background: transparent; cursor: default; pointer-events: none; }
+  .cal-cell.today { border-color: var(--blue); border-width: 2px; }
+  .cal-cell.has-data { background: var(--green-light); border-color: rgba(29,158,117,0.3); }
+  .cal-cell.selected { border-color: var(--green); border-width: 2px; background: var(--green-light); }
+  .cal-cell.future { opacity: 0.45; }
+  .cal-date-num { font-size: 11px; color: var(--text2); font-weight: 500; }
+  .cal-count-num { font-size: 16px; font-weight: 700; color: var(--green); line-height: 1; }
+  .cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); margin-top: 1px; }
+
+  /* Day Editor */
+  .day-editor {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+    margin-bottom: 1.25rem;
+  }
+  .day-editor-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .day-editor-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .day-editor-row label { font-size: 13px; color: var(--text2); }
+  .day-editor-row input[type=number] {
+    width: 90px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid var(--border-md);
+    border-radius: 9px;
+    background: var(--surface2);
+    color: var(--text);
+    outline: none;
+  }
+  .day-editor-row input[type=number]:focus { border-color: var(--green); }
+  .btn-save {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border: 1px solid rgba(29,158,117,0.4);
+    border-radius: 9px;
+    background: var(--green-light);
+    color: var(--green);
+    cursor: pointer;
+  }
+  .btn-save:hover { background: #9FE1CB; }
+  .btn-clear {
+    font-size: 13px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-md);
+    border-radius: 9px;
+    background: var(--surface2);
+    color: var(--text2);
+    cursor: pointer;
+  }
+  .btn-clear:hover { border-color: var(--red); color: var(--red); }
+
+  /* Chart */
+  .chart-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+    margin-bottom: 1.25rem;
+  }
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .chart-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 10px;
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; }
+  .chart-container { position: relative; width: 100%; height: 180px; }
+  .empty-chart { text-align: center; padding: 40px 20px; font-size: 13px; color: var(--text3); }
+
+  /* Heatmap strip */
+  .heatmap-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+    margin-bottom: 1.25rem;
+  }
+  .heatmap-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 10px;
+  }
+  .heatmap-cell {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    cursor: default;
+    position: relative;
+    transition: transform 0.1s;
+  }
+  .heatmap-cell:hover { transform: scale(1.3); z-index: 10; }
+  .hm-0 { background: var(--surface2); }
+  .hm-1 { background: #9FE1CB; border-color: rgba(29,158,117,0.3); }
+  .hm-2 { background: #5DCAA5; border-color: rgba(29,158,117,0.4); }
+  .hm-3 { background: #1D9E75; border-color: rgba(15,110,86,0.5); }
+  .hm-4 { background: #0F6E56; border-color: rgba(8,80,65,0.6); }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .tooltip.visible { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="header">
+    <div class="header-left">
+      <h1><i class="ti ti-target" style="margin-right:8px;color:#1D9E75"></i>Question Tracker</h1>
+      <p>Track your daily progress and forecast completion date</p>
+    </div>
+    <div class="header-badge" id="header-badge">0 / 120</div>
+  </div>
+  <div id="root"></div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const STORAGE_KEY = 'qtracker_v2';
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+function pad(n) { return String(n).padStart(2,'0'); }
+function dateKey(y,m,d) { return `${y}-${pad(m+1)}-${pad(d)}`; }
+function todayKey() {
+  const t = new Date();
+  return dateKey(t.getFullYear(), t.getMonth(), t.getDate());
+}
+function parseKey(k) {
+  const p = k.split('-');
+  return { y:+p[0], m:+p[1]-1, d:+p[2] };
+}
+function isFuture(k) { return k > todayKey(); }
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return { totalTarget: 120, entries: {} };
+}
+function saveData(d) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {}
+}
+
+let data = loadData();
+let viewYear = new Date().getFullYear();
+let viewMonth = new Date().getMonth();
+let selectedDate = todayKey();
+let chartInst = null;
+
+function entries() { return data.entries || {}; }
+function totalDone() { return Object.values(entries()).reduce((s,v)=>s+v, 0); }
+function remaining() { return Math.max(0, data.totalTarget - totalDone()); }
+function pct() { return Math.min(100, Math.round((totalDone() / data.totalTarget) * 100)); }
+
+function sortedDates() {
+  return Object.keys(entries()).filter(k => entries()[k] > 0).sort();
+}
+function activeDays() { return sortedDates().length; }
+function avgPerDay() {
+  const d = activeDays();
+  return d > 0 ? totalDone() / d : 0;
+}
+function daysLeft() {
+  const avg = avgPerDay();
+  if (avg <= 0 || remaining() === 0) return null;
+  return Math.ceil(remaining() / avg);
+}
+function completionDate() {
+  const d = daysLeft();
+  if (d === null) return null;
+  const dt = new Date();
+  dt.setDate(dt.getDate() + d);
+  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+function streak() {
+  const dates = sortedDates();
+  if (!dates.length) return 0;
+  let cur = 1, best = 1;
+  for (let i = 1; i < dates.length; i++) {
+    const diff = (new Date(dates[i]) - new Date(dates[i-1])) / 86400000;
+    if (diff === 1) { cur++; best = Math.max(best, cur); } else cur = 1;
+  }
+  return best;
+}
+
+function heatLevel(count) {
+  if (!count) return 0;
+  if (count <= 2) return 1;
+  if (count <= 5) return 2;
+  if (count <= 10) return 3;
+  return 4;
+}
+
+function render() {
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+
+  const done = totalDone();
+  const rem = remaining();
+  const p = pct();
+  const avg = avgPerDay();
+  const dl = daysLeft();
+  const cDate = completionDate();
+  const str = streak();
+
+  document.getElementById('header-badge').textContent = `${done} / ${data.totalTarget}`;
+
+  // Stats
+  const sg = document.createElement('div');
+  sg.className = 'stats-grid';
+  sg.innerHTML = `
+    <div class="stat-card c-green">
+      <div class="stat-label">Completed</div>
+      <div class="stat-value">${done}</div>
+      <div class="stat-sub">of ${data.totalTarget} total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Remaining</div>
+      <div class="stat-value">${rem}</div>
+      <div class="stat-sub">questions left</div>
+    </div>
+    <div class="stat-card c-blue">
+      <div class="stat-label">Daily avg</div>
+      <div class="stat-value">${avg > 0 ? avg.toFixed(1) : '—'}</div>
+      <div class="stat-sub">per active day</div>
+    </div>
+    <div class="stat-card c-amber">
+      <div class="stat-label">ETA</div>
+      <div class="stat-value">${dl !== null ? dl + 'd' : '—'}</div>
+      <div class="stat-sub">${cDate || 'log data first'}</div>
+    </div>
+  `;
+  root.appendChild(sg);
+
+  // Progress bar
+  const pb = document.createElement('div');
+  pb.className = 'progress-wrap';
+  pb.innerHTML = `
+    <div class="progress-header">
+      <span class="progress-title">Overall progress</span>
+      <span class="progress-meta">${done} / ${data.totalTarget} &nbsp;·&nbsp; <strong>${p}%</strong></span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:${p}%"></div>
+    </div>
+    <div class="progress-ticks">
+      <span class="progress-tick">0</span>
+      <span class="progress-tick">${Math.round(data.totalTarget * 0.25)}</span>
+      <span class="progress-tick">${Math.round(data.totalTarget * 0.5)}</span>
+      <span class="progress-tick">${Math.round(data.totalTarget * 0.75)}</span>
+      <span class="progress-tick">${data.totalTarget}</span>
+    </div>
+  `;
+  root.appendChild(pb);
+
+  // Two-col: Settings + Forecast
+  const tc = document.createElement('div');
+  tc.className = 'two-col';
+
+  // Settings panel
+  const sp = document.createElement('div');
+  sp.className = 'panel';
+  sp.innerHTML = `<div class="panel-title"><i class="ti ti-settings"></i> Settings</div>`;
+
+  const settingRow = document.createElement('div');
+  settingRow.className = 'setting-row';
+  settingRow.innerHTML = `<span class="setting-label">Total target</span>`;
+  const tInput = document.createElement('input');
+  tInput.type = 'number'; tInput.min = 1; tInput.max = 99999;
+  tInput.value = data.totalTarget;
+  tInput.addEventListener('change', () => {
+    const v = parseInt(tInput.value);
+    if (v > 0) { data.totalTarget = v; saveData(data); render(); }
+  });
+  settingRow.appendChild(tInput);
+  sp.appendChild(settingRow);
+
+  const hint = document.createElement('p');
+  hint.className = 'hint-text';
+  hint.textContent = 'Click any date on the calendar to log your questions for that day.';
+  sp.appendChild(hint);
+
+  const resetBtn = document.createElement('button');
+  resetBtn.className = 'btn-reset';
+  resetBtn.innerHTML = '<i class="ti ti-trash" style="margin-right:4px;font-size:13px;vertical-align:-1px"></i>Reset all entries';
+  resetBtn.addEventListener('click', () => {
+    if (confirm('Clear all logged entries? Your target will be kept.')) {
+      data.entries = {}; saveData(data); selectedDate = todayKey(); render();
+    }
+  });
+  sp.appendChild(resetBtn);
+
+  // Forecast panel
+  const fcClass = dl !== null ? (dl > 120 ? 'red' : dl > 60 ? 'amber' : 'green') : '';
+  const fp = document.createElement('div');
+  fp.className = 'panel';
+  fp.innerHTML = `
+    <div class="panel-title"><i class="ti ti-chart-line"></i> Forecast</div>
+    <div class="forecast-row"><span class="forecast-key">Active days</span><span class="forecast-val">${activeDays()}</span></div>
+    <div class="forecast-row"><span class="forecast-key">Best streak</span><span class="forecast-val">${str} day${str !== 1 ? 's' : ''}</span></div>
+    <div class="forecast-row"><span class="forecast-key">Avg / day</span><span class="forecast-val">${avg > 0 ? avg.toFixed(1) : '—'}</span></div>
+    <div class="forecast-row"><span class="forecast-key">Days remaining</span><span class="forecast-val ${fcClass}">${dl !== null ? dl : '—'}</span></div>
+    <div class="forecast-row"><span class="forecast-key">Done by</span><span class="forecast-val ${fcClass}">${cDate || '—'}</span></div>
+    <div class="forecast-row"><span class="forecast-key">Progress</span><span class="forecast-val ${p >= 100 ? 'green' : ''}">${p}%</span></div>
+  `;
+
+  tc.appendChild(sp);
+  tc.appendChild(fp);
+  root.appendChild(tc);
+
+  // Calendar
+  renderCalendar(root);
+
+  // Day editor
+  renderDayEditor(root);
+
+  // Chart
+  renderChart(root);
+
+  // Heatmap
+  renderHeatmap(root);
+}
+
+function renderCalendar(root) {
+  const section = document.createElement('div');
+  section.className = 'calendar-section';
+
+  const nav = document.createElement('div');
+  nav.className = 'cal-nav';
+
+  const monthLabel = document.createElement('span');
+  monthLabel.className = 'cal-month-label';
+  monthLabel.textContent = `${MONTHS[viewMonth]} ${viewYear}`;
+
+  const navBtns = document.createElement('div');
+  navBtns.className = 'cal-nav-btns';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn-icon';
+  prevBtn.innerHTML = '<i class="ti ti-chevron-left"></i>';
+  prevBtn.title = 'Previous month';
+  prevBtn.addEventListener('click', () => {
+    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; } render();
+  });
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn-icon';
+  nextBtn.innerHTML = '<i class="ti ti-chevron-right"></i>';
+  nextBtn.title = 'Next month';
+  nextBtn.addEventListener('click', () => {
+    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; } render();
+  });
+
+  const todayBtn = document.createElement('button');
+  todayBtn.className = 'btn-today';
+  todayBtn.textContent = 'Today';
+  todayBtn.addEventListener('click', () => {
+    const now = new Date();
+    viewYear = now.getFullYear(); viewMonth = now.getMonth();
+    selectedDate = todayKey(); render();
+  });
+
+  navBtns.appendChild(prevBtn);
+  navBtns.appendChild(nextBtn);
+  navBtns.appendChild(todayBtn);
+  nav.appendChild(monthLabel);
+  nav.appendChild(navBtns);
+  section.appendChild(nav);
+
+  const grid = document.createElement('div');
+  grid.className = 'cal-grid';
+
+  DAYS_SHORT.forEach(d => {
+    const h = document.createElement('div');
+    h.className = 'cal-day-hdr';
+    h.textContent = d;
+    grid.appendChild(h);
+  });
+
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const tdStr = todayKey();
+  const ent = entries();
+
+  for (let i = 0; i < firstDay; i++) {
+    const e = document.createElement('div');
+    e.className = 'cal-cell empty';
+    grid.appendChild(e);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const k = dateKey(viewYear, viewMonth, d);
+    const cell = document.createElement('div');
+    const future = isFuture(k);
+    cell.className = 'cal-cell';
+    if (future) cell.classList.add('future');
+    if (k === tdStr) cell.classList.add('today');
+    if (k === selectedDate) cell.classList.add('selected');
+    const count = ent[k] || 0;
+    if (count > 0) cell.classList.add('has-data');
+
+    const dateEl = document.createElement('div');
+    dateEl.className = 'cal-date-num';
+    dateEl.textContent = d;
+    cell.appendChild(dateEl);
+
+    if (count > 0) {
+      const countEl = document.createElement('div');
+      countEl.className = 'cal-count-num';
+      countEl.textContent = count;
+      cell.appendChild(countEl);
+      const dot = document.createElement('div');
+      dot.className = 'cal-dot';
+      cell.appendChild(dot);
+    }
+
+    if (!future) {
+      cell.addEventListener('click', () => {
+        selectedDate = k;
+        render();
+        setTimeout(() => {
+          const inp = document.getElementById('day-inp');
+          if (inp) { inp.focus(); inp.select(); }
+          const de = document.getElementById('day-editor');
+          if (de) de.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      });
+    }
+
+    grid.appendChild(cell);
+  }
+
+  section.appendChild(grid);
+  root.appendChild(section);
+}
+
+function renderDayEditor(root) {
+  const wrap = document.createElement('div');
+  wrap.className = 'day-editor';
+  wrap.id = 'day-editor';
+
+  const p = parseKey(selectedDate);
+  const displayDate = new Date(p.y, p.m, p.d).toLocaleDateString('en-US', {
+    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+  });
+  const ent = entries();
+  const current = ent[selectedDate] || 0;
+  const future = isFuture(selectedDate);
+
+  const title = document.createElement('div');
+  title.className = 'day-editor-title';
+  title.innerHTML = `<i class="ti ti-calendar-event" style="color:#378ADD"></i>${displayDate}`;
+  wrap.appendChild(title);
+
+  if (future) {
+    const msg = document.createElement('p');
+    msg.style.cssText = 'font-size:13px;color:var(--text3);';
+    msg.textContent = 'Future dates cannot be logged yet.';
+    wrap.appendChild(msg);
+    root.appendChild(wrap);
+    return;
+  }
+
+  const row = document.createElement('div');
+  row.className = 'day-editor-row';
+
+  const lbl = document.createElement('label');
+  lbl.textContent = 'Questions done:';
+  lbl.htmlFor = 'day-inp';
+  row.appendChild(lbl);
+
+  const inp = document.createElement('input');
+  inp.type = 'number'; inp.min = 0; inp.max = 9999;
+  inp.id = 'day-inp';
+  inp.value = current;
+  row.appendChild(inp);
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'btn-save';
+  saveBtn.innerHTML = '<i class="ti ti-check" style="margin-right:4px;font-size:13px;vertical-align:-1px"></i>Save';
+  saveBtn.addEventListener('click', () => {
+    const v = Math.max(0, parseInt(inp.value) || 0);
+    if (v === 0) delete data.entries[selectedDate];
+    else data.entries[selectedDate] = v;
+    saveData(data);
+    render();
+  });
+  row.appendChild(saveBtn);
+
+  if (current > 0) {
+    const clrBtn = document.createElement('button');
+    clrBtn.className = 'btn-clear';
+    clrBtn.innerHTML = '<i class="ti ti-x" style="margin-right:4px;font-size:13px;vertical-align:-1px"></i>Clear';
+    clrBtn.addEventListener('click', () => {
+      delete data.entries[selectedDate];
+      saveData(data); render();
+    });
+    row.appendChild(clrBtn);
+  }
+
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') saveBtn.click(); });
+  wrap.appendChild(row);
+  root.appendChild(wrap);
+}
+
+function renderChart(root) {
+  const ent = entries();
+  const dates = sortedDates();
+
+  const section = document.createElement('div');
+  section.className = 'chart-section';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'chart-header';
+  hdr.innerHTML = `<div class="panel-title" style="margin-bottom:0"><i class="ti ti-chart-bar" style="color:var(--text2)"></i> Daily activity${dates.length > 30 ? ' (last 30 days)' : ''}</div>`;
+  section.appendChild(hdr);
+
+  if (dates.length === 0) {
+    section.innerHTML += `<div class="empty-chart"><i class="ti ti-chart-bar" style="font-size:28px;display:block;margin-bottom:8px;color:var(--text3)"></i>Log some questions to see your activity chart</div>`;
+    root.appendChild(section);
+    return;
+  }
+
+  const legend = document.createElement('div');
+  legend.className = 'chart-legend';
+  legend.innerHTML = `
+    <span><span class="legend-dot" style="background:#5DCAA5"></span>Daily count</span>
+    <span><span style="display:inline-block;width:20px;height:2px;border-top:2px dashed #EF9F27;vertical-align:middle;margin-right:4px"></span>Avg pace</span>
+  `;
+  section.appendChild(legend);
+
+  const cw = document.createElement('div');
+  cw.className = 'chart-container';
+  const canvas = document.createElement('canvas');
+  canvas.id = 'actChart';
+  canvas.setAttribute('role','img');
+  canvas.setAttribute('aria-label','Bar chart showing daily questions completed');
+  cw.appendChild(canvas);
+  section.appendChild(cw);
+  root.appendChild(section);
+
+  const showDates = dates.slice(-30);
+  const labels = showDates.map(k => {
+    const p = parseKey(k);
+    return `${MONTHS[p.m].slice(0,3)} ${p.d}`;
+  });
+  const vals = showDates.map(k => ent[k]);
+  const avg = avgPerDay();
+  const avgLine = showDates.map(() => avg > 0 ? Math.round(avg * 10) / 10 : null);
+
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+  const tickColor = isDark ? '#6b6a65' : '#9b9a95';
+
+  setTimeout(() => {
+    if (chartInst) { chartInst.destroy(); chartInst = null; }
+    const ctx = document.getElementById('actChart');
+    if (!ctx) return;
+    chartInst = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Questions done',
+            data: vals,
+            backgroundColor: '#5DCAA5',
+            borderColor: '#1D9E75',
+            borderWidth: 0.5,
+            borderRadius: 5,
+          },
+          {
+            label: 'Avg pace',
+            data: avgLine,
+            type: 'line',
+            borderColor: '#EF9F27',
+            borderWidth: 2,
+            borderDash: [5,4],
+            pointRadius: 0,
+            tension: 0,
+            fill: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 11 }, color: tickColor, maxRotation: 45, autoSkip: true, maxTicksLimit: 12 }
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: gridColor },
+            ticks: { font: { size: 11 }, color: tickColor, stepSize: 1 }
+          }
+        }
+      }
+    });
+  }, 50);
+}
+
+function renderHeatmap(root) {
+  const section = document.createElement('div');
+  section.className = 'heatmap-section';
+  section.innerHTML = `<div class="panel-title" style="margin-bottom:4px"><i class="ti ti-calendar-stats" style="color:var(--text2)"></i> Activity heatmap <span style="font-size:12px;color:var(--text3);font-weight:400;margin-left:4px">(last 84 days)</span></div>`;
+
+  const grid = document.createElement('div');
+  grid.className = 'heatmap-grid';
+
+  const today = new Date();
+  const tooltip = document.getElementById('tooltip');
+
+  for (let i = 83; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const k = dateKey(d.getFullYear(), d.getMonth(), d.getDate());
+    const count = entries()[k] || 0;
+    const level = heatLevel(count);
+
+    const cell = document.createElement('div');
+    cell.className = `heatmap-cell hm-${level}`;
+
+    const dateStr = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    cell.title = count > 0 ? `${dateStr}: ${count} questions` : dateStr;
+
+    cell.addEventListener('mouseenter', (e) => {
+      tooltip.textContent = count > 0 ? `${dateStr}: ${count} questions` : `${dateStr}: none`;
+      tooltip.classList.add('visible');
+    });
+    cell.addEventListener('mousemove', (e) => {
+      tooltip.style.left = (e.clientX + 12) + 'px';
+      tooltip.style.top = (e.clientY - 28) + 'px';
+    });
+    cell.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
+
+    grid.appendChild(cell);
+  }
+
+  const legend = document.createElement('div');
+  legend.style.cssText = 'display:flex;align-items:center;gap:4px;margin-top:10px;font-size:11px;color:var(--text3);';
+  legend.innerHTML = `
+    Less
+    <span style="width:12px;height:12px;border-radius:2px;background:var(--surface2);border:1px solid var(--border);display:inline-block"></span>
+    <span style="width:12px;height:12px;border-radius:2px;background:#9FE1CB;display:inline-block"></span>
+    <span style="width:12px;height:12px;border-radius:2px;background:#5DCAA5;display:inline-block"></span>
+    <span style="width:12px;height:12px;border-radius:2px;background:#1D9E75;display:inline-block"></span>
+    <span style="width:12px;height:12px;border-radius:2px;background:#0F6E56;display:inline-block"></span>
+    More
+  `;
+  section.appendChild(grid);
+  section.appendChild(legend);
+  root.appendChild(section);
+}
+
+render();
+</script>
+</body>
+</html>
