@@ -27,6 +27,8 @@
     --blue-light: #E6F1FB;
     --red: #E24B4A;
     --red-light: #FCEBEB;
+    --purple: #7C5CBF;
+    --purple-light: #F0EBFF;
     --radius: 10px;
     --radius-lg: 14px;
   }
@@ -45,6 +47,7 @@
       --amber-light: #2e1e00;
       --blue-light: #0a1e33;
       --red-light: #2e0a0a;
+      --purple-light: #1e1630;
     }
   }
 
@@ -56,10 +59,7 @@
     padding: 2rem 1rem 4rem;
   }
 
-  .app {
-    max-width: 780px;
-    margin: 0 auto;
-  }
+  .app { max-width: 780px; margin: 0 auto; }
 
   /* Header */
   .header {
@@ -70,17 +70,8 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-  .header-left h1 {
-    font-size: 26px;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
-  .header-left p {
-    font-size: 14px;
-    color: var(--text2);
-    margin-top: 4px;
-  }
+  .header-left h1 { font-size: 26px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+  .header-left p { font-size: 14px; color: var(--text2); margin-top: 4px; }
   .header-badge {
     background: var(--green-light);
     color: var(--green);
@@ -93,149 +84,46 @@
   }
 
   /* Stats Grid */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 1.25rem;
-  }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.25rem; }
   @media (max-width: 580px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
 
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-  }
-  .stat-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: var(--text3);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .stat-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-  .stat-sub {
-    font-size: 12px;
-    color: var(--text2);
-    margin-top: 4px;
-  }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--text3); text-transform: uppercase; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; letter-spacing: -1px; }
+  .stat-sub { font-size: 12px; color: var(--text2); margin-top: 4px; }
   .stat-card.c-green .stat-value { color: var(--green); }
   .stat-card.c-blue .stat-value { color: var(--blue); }
   .stat-card.c-amber .stat-value { color: var(--amber); }
 
   /* Progress */
-  .progress-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    margin-bottom: 1.25rem;
-  }
-  .progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 1.25rem; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
   .progress-title { font-size: 14px; font-weight: 600; color: var(--text); }
   .progress-meta { font-size: 13px; color: var(--text2); }
-  .progress-track {
-    height: 10px;
-    background: var(--surface2);
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--green-mid), var(--green));
-    border-radius: 5px;
-    transition: width 0.6s cubic-bezier(.4,0,.2,1);
-    min-width: 0;
-  }
-  .progress-ticks {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-  }
+  .progress-track { height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green-mid), var(--green)); border-radius: 5px; transition: width 0.6s cubic-bezier(.4,0,.2,1); min-width: 0; }
+  .progress-ticks { display: flex; justify-content: space-between; margin-top: 6px; }
   .progress-tick { font-size: 11px; color: var(--text3); }
 
-  /* Two-column section */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 1.25rem;
-  }
+  /* Two-column */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
   @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
 
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 16px 18px;
-  }
-  .panel-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; }
+  .panel-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
   .panel-title i { color: var(--text2); font-size: 16px; }
 
   /* Settings */
-  .setting-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
+  .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   .setting-label { font-size: 13px; color: var(--text2); }
-  .setting-row input[type=number] {
-    width: 80px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    padding: 6px 8px;
-    border: 1px solid var(--border-md);
-    border-radius: 8px;
-    background: var(--surface2);
-    color: var(--text);
-    outline: none;
-  }
+  .setting-row input[type=number] { width: 80px; font-size: 14px; font-weight: 600; text-align: center; padding: 6px 8px; border: 1px solid var(--border-md); border-radius: 8px; background: var(--surface2); color: var(--text); outline: none; }
   .setting-row input[type=number]:focus { border-color: var(--green); }
   .hint-text { font-size: 12px; color: var(--text3); margin-bottom: 12px; line-height: 1.5; }
-  .btn-reset {
-    font-size: 12px;
-    padding: 6px 12px;
-    border: 1px solid rgba(226,75,74,0.3);
-    border-radius: 8px;
-    background: var(--red-light);
-    color: var(--red);
-    cursor: pointer;
-    font-weight: 500;
-  }
+  .btn-reset { font-size: 12px; padding: 6px 12px; border: 1px solid rgba(226,75,74,0.3); border-radius: 8px; background: var(--red-light); color: var(--red); cursor: pointer; font-weight: 500; }
   .btn-reset:hover { background: #f7c1c1; }
 
   /* Forecast */
-  .forecast-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
+  .forecast-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .forecast-row:last-child { border-bottom: none; }
   .forecast-key { color: var(--text2); }
   .forecast-val { font-weight: 600; color: var(--text); }
@@ -244,71 +132,17 @@
   .forecast-val.red { color: var(--red); }
 
   /* Calendar */
-  .calendar-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 18px;
-    margin-bottom: 1.25rem;
-  }
-  .cal-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-  }
+  .calendar-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 1.25rem; }
+  .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
   .cal-month-label { font-size: 15px; font-weight: 600; color: var(--text); }
   .cal-nav-btns { display: flex; gap: 6px; align-items: center; }
-  .btn-icon {
-    width: 30px; height: 30px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--border-md);
-    border-radius: 8px;
-    background: var(--surface2);
-    color: var(--text2);
-    cursor: pointer;
-    font-size: 15px;
-    transition: background 0.15s;
-  }
+  .btn-icon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-md); border-radius: 8px; background: var(--surface2); color: var(--text2); cursor: pointer; font-size: 15px; transition: background 0.15s; }
   .btn-icon:hover { background: var(--bg); color: var(--text); }
-  .btn-today {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 5px 12px;
-    border: 1px solid var(--border-md);
-    border-radius: 8px;
-    background: var(--surface2);
-    color: var(--text2);
-    cursor: pointer;
-  }
+  .btn-today { font-size: 12px; font-weight: 600; padding: 5px 12px; border: 1px solid var(--border-md); border-radius: 8px; background: var(--surface2); color: var(--text2); cursor: pointer; }
   .btn-today:hover { color: var(--text); }
-
-  .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-  }
-  .cal-day-hdr {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text3);
-    text-align: center;
-    padding: 4px 0 8px;
-    letter-spacing: 0.04em;
-  }
-  .cal-cell {
-    aspect-ratio: 1;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-    transition: border-color 0.15s, background 0.15s;
-    background: var(--surface);
-  }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-day-hdr { font-size: 11px; font-weight: 600; color: var(--text3); text-align: center; padding: 4px 0 8px; letter-spacing: 0.04em; }
+  .cal-cell { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 9px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: border-color 0.15s, background 0.15s; background: var(--surface); }
   .cal-cell:hover { border-color: var(--green); background: var(--green-light); }
   .cal-cell.empty { border-color: transparent; background: transparent; cursor: default; pointer-events: none; }
   .cal-cell.today { border-color: var(--blue); border-width: 2px; }
@@ -320,113 +154,29 @@
   .cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); margin-top: 1px; }
 
   /* Day Editor */
-  .day-editor {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 16px 18px;
-    margin-bottom: 1.25rem;
-  }
-  .day-editor-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-  .day-editor-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+  .day-editor { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 1.25rem; }
+  .day-editor-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+  .day-editor-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .day-editor-row label { font-size: 13px; color: var(--text2); }
-  .day-editor-row input[type=number] {
-    width: 90px;
-    font-size: 18px;
-    font-weight: 700;
-    text-align: center;
-    padding: 8px;
-    border: 1px solid var(--border-md);
-    border-radius: 9px;
-    background: var(--surface2);
-    color: var(--text);
-    outline: none;
-  }
+  .day-editor-row input[type=number] { width: 90px; font-size: 18px; font-weight: 700; text-align: center; padding: 8px; border: 1px solid var(--border-md); border-radius: 9px; background: var(--surface2); color: var(--text); outline: none; }
   .day-editor-row input[type=number]:focus { border-color: var(--green); }
-  .btn-save {
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 18px;
-    border: 1px solid rgba(29,158,117,0.4);
-    border-radius: 9px;
-    background: var(--green-light);
-    color: var(--green);
-    cursor: pointer;
-  }
+  .btn-save { font-size: 13px; font-weight: 600; padding: 8px 18px; border: 1px solid rgba(29,158,117,0.4); border-radius: 9px; background: var(--green-light); color: var(--green); cursor: pointer; }
   .btn-save:hover { background: #9FE1CB; }
-  .btn-clear {
-    font-size: 13px;
-    padding: 8px 14px;
-    border: 1px solid var(--border-md);
-    border-radius: 9px;
-    background: var(--surface2);
-    color: var(--text2);
-    cursor: pointer;
-  }
+  .btn-clear { font-size: 13px; padding: 8px 14px; border: 1px solid var(--border-md); border-radius: 9px; background: var(--surface2); color: var(--text2); cursor: pointer; }
   .btn-clear:hover { border-color: var(--red); color: var(--red); }
 
   /* Chart */
-  .chart-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 16px 18px;
-    margin-bottom: 1.25rem;
-  }
-  .chart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-  }
-  .chart-legend {
-    display: flex;
-    gap: 16px;
-    font-size: 12px;
-    color: var(--text2);
-    margin-bottom: 10px;
-  }
+  .chart-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 1.25rem; }
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .chart-legend { display: flex; gap: 16px; font-size: 12px; color: var(--text2); margin-bottom: 10px; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; }
   .chart-container { position: relative; width: 100%; height: 180px; }
   .empty-chart { text-align: center; padding: 40px 20px; font-size: 13px; color: var(--text3); }
 
-  /* Heatmap strip */
-  .heatmap-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 16px 18px;
-    margin-bottom: 1.25rem;
-  }
-  .heatmap-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-    margin-top: 10px;
-  }
-  .heatmap-cell {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    cursor: default;
-    position: relative;
-    transition: transform 0.1s;
-  }
+  /* Heatmap */
+  .heatmap-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 1.25rem; }
+  .heatmap-grid { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 10px; }
+  .heatmap-cell { width: 14px; height: 14px; border-radius: 3px; background: var(--surface2); border: 1px solid var(--border); cursor: default; position: relative; transition: transform 0.1s; }
   .heatmap-cell:hover { transform: scale(1.3); z-index: 10; }
   .hm-0 { background: var(--surface2); }
   .hm-1 { background: #9FE1CB; border-color: rgba(29,158,117,0.3); }
@@ -434,21 +184,161 @@
   .hm-3 { background: #1D9E75; border-color: rgba(15,110,86,0.5); }
   .hm-4 { background: #0F6E56; border-color: rgba(8,80,65,0.6); }
 
-  /* Tooltip */
-  .tooltip {
-    position: fixed;
-    background: var(--text);
-    color: var(--bg);
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 6px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s;
-    z-index: 999;
+  /* ── PACE SIMULATOR ─────────────────────────────────────────────── */
+  .pace-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 1.25rem; }
+  .pace-section .panel-title { margin-bottom: 6px; }
+  .pace-subtitle { font-size: 12px; color: var(--text3); margin-bottom: 16px; }
+
+  .pace-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  @media (max-width: 560px) { .pace-cards { grid-template-columns: repeat(2,1fr); } }
+
+  .pace-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+    background: var(--surface2);
+    position: relative;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .pace-card.is-current {
+    border-color: var(--blue);
+    background: var(--blue-light);
+  }
+  .pace-card.is-fastest {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+  .pace-card-badge {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
     white-space: nowrap;
   }
+  .badge-current { background: var(--blue); color: #fff; }
+  .badge-fastest { background: var(--green); color: #fff; }
+  .pace-qpd { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; line-height: 1; margin-top: 8px; }
+  .pace-qpd-label { font-size: 10px; color: var(--text3); margin-top: 2px; margin-bottom: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .pace-days { font-size: 15px; font-weight: 700; color: var(--text); }
+  .pace-days.c-green { color: var(--green); }
+  .pace-days.c-amber { color: var(--amber); }
+  .pace-days.c-red { color: var(--red); }
+  .pace-date { font-size: 11px; color: var(--text2); margin-top: 3px; }
+  .pace-bar-track { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .pace-bar-fill { height: 100%; border-radius: 2px; background: var(--green-mid); }
+
+  /* ── CUSTOM TEMPLATES ───────────────────────────────────────────── */
+  .tpl-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 1.25rem; }
+  .tpl-section .panel-title { margin-bottom: 6px; }
+  .tpl-subtitle { font-size: 12px; color: var(--text3); margin-bottom: 14px; }
+
+  .tpl-add-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tpl-add-row input[type=text] {
+    flex: 1;
+    min-width: 120px;
+    font-size: 13px;
+    padding: 8px 10px;
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    background: var(--surface2);
+    color: var(--text);
+    outline: none;
+  }
+  .tpl-add-row input[type=text]:focus { border-color: var(--purple); }
+  .tpl-add-row input[type=text]::placeholder { color: var(--text3); }
+  .tpl-add-row input[type=number] {
+    width: 80px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid var(--border-md);
+    border-radius: 8px;
+    background: var(--surface2);
+    color: var(--text);
+    outline: none;
+  }
+  .tpl-add-row input[type=number]:focus { border-color: var(--purple); }
+  .btn-add-tpl {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid rgba(124,92,191,0.4);
+    border-radius: 9px;
+    background: var(--purple-light);
+    color: var(--purple);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-add-tpl:hover { filter: brightness(0.95); }
+  .tpl-add-row .tpl-input-group { display: flex; align-items: center; gap: 6px; }
+  .tpl-input-label { font-size: 12px; color: var(--text2); white-space: nowrap; }
+
+  .tpl-empty { font-size: 13px; color: var(--text3); text-align: center; padding: 20px 0; }
+
+  .tpl-list { display: flex; flex-direction: column; gap: 8px; }
+  .tpl-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface2);
+  }
+  .tpl-card-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: var(--purple-light);
+    border: 1px solid rgba(124,92,191,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--purple);
+  }
+  .tpl-card-body { flex: 1; min-width: 0; }
+  .tpl-card-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tpl-card-meta { font-size: 12px; color: var(--text2); margin-top: 1px; }
+  .tpl-card-eta { text-align: right; flex-shrink: 0; }
+  .tpl-card-days { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+  .tpl-card-days.c-green { color: var(--green); }
+  .tpl-card-days.c-amber { color: var(--amber); }
+  .tpl-card-days.c-red { color: var(--red); }
+  .tpl-card-date { font-size: 11px; color: var(--text2); margin-top: 1px; }
+  .btn-del-tpl {
+    width: 28px; height: 28px;
+    border: 1px solid var(--border-md);
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-del-tpl:hover { border-color: var(--red); color: var(--red); }
+
+  /* Tooltip */
+  .tooltip { position: fixed; background: var(--text); color: var(--bg); font-size: 12px; padding: 5px 10px; border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 999; white-space: nowrap; }
   .tooltip.visible { opacity: 1; }
+
+  /* Section divider label */
+  .section-divider { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; margin-top: 6px; padding-left: 2px; }
 </style>
 </head>
 <body>
@@ -465,10 +355,14 @@
 <div class="tooltip" id="tooltip"></div>
 
 <script>
+// ── Storage key (bump version if you change schema) ──────────────────
 const STORAGE_KEY = 'qtracker_v2';
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const MONTHS = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
 const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
+// ── Helpers ──────────────────────────────────────────────────────────
 function pad(n) { return String(n).padStart(2,'0'); }
 function dateKey(y,m,d) { return `${y}-${pad(m+1)}-${pad(d)}`; }
 function todayKey() {
@@ -481,27 +375,48 @@ function parseKey(k) {
 }
 function isFuture(k) { return k > todayKey(); }
 
+function etaDate(daysFromNow) {
+  if (daysFromNow === null || daysFromNow <= 0) return null;
+  const dt = new Date();
+  dt.setDate(dt.getDate() + daysFromNow);
+  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+function etaColor(days) {
+  if (days === null) return '';
+  if (days <= 30) return 'c-green';
+  if (days <= 90) return 'c-amber';
+  return 'c-red';
+}
+
+// ── Data layer ───────────────────────────────────────────────────────
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const d = JSON.parse(raw);
+      // ensure new fields exist on old saves
+      if (!d.templates) d.templates = [];
+      return d;
+    }
   } catch(e) {}
-  return { totalTarget: 120, entries: {} };
+  return { totalTarget: 120, entries: {}, templates: [] };
 }
 function saveData(d) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {}
 }
 
+// ── App state ────────────────────────────────────────────────────────
 let data = loadData();
-let viewYear = new Date().getFullYear();
+let viewYear  = new Date().getFullYear();
 let viewMonth = new Date().getMonth();
 let selectedDate = todayKey();
 let chartInst = null;
 
-function entries() { return data.entries || {}; }
-function totalDone() { return Object.values(entries()).reduce((s,v)=>s+v, 0); }
-function remaining() { return Math.max(0, data.totalTarget - totalDone()); }
-function pct() { return Math.min(100, Math.round((totalDone() / data.totalTarget) * 100)); }
+// ── Computed ─────────────────────────────────────────────────────────
+function entries()    { return data.entries || {}; }
+function totalDone()  { return Object.values(entries()).reduce((s,v)=>s+v, 0); }
+function remaining()  { return Math.max(0, data.totalTarget - totalDone()); }
+function pct()        { return Math.min(100, Math.round((totalDone() / data.totalTarget) * 100)); }
 
 function sortedDates() {
   return Object.keys(entries()).filter(k => entries()[k] > 0).sort();
@@ -511,6 +426,10 @@ function avgPerDay() {
   const d = activeDays();
   return d > 0 ? totalDone() / d : 0;
 }
+function daysLeftAtPace(pace) {
+  if (pace <= 0 || remaining() === 0) return 0;
+  return Math.ceil(remaining() / pace);
+}
 function daysLeft() {
   const avg = avgPerDay();
   if (avg <= 0 || remaining() === 0) return null;
@@ -518,10 +437,7 @@ function daysLeft() {
 }
 function completionDate() {
   const d = daysLeft();
-  if (d === null) return null;
-  const dt = new Date();
-  dt.setDate(dt.getDate() + d);
-  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  return etaDate(d);
 }
 function streak() {
   const dates = sortedDates();
@@ -533,7 +449,6 @@ function streak() {
   }
   return best;
 }
-
 function heatLevel(count) {
   if (!count) return 0;
   if (count <= 2) return 1;
@@ -542,17 +457,18 @@ function heatLevel(count) {
   return 4;
 }
 
+// ── Main render ──────────────────────────────────────────────────────
 function render() {
   const root = document.getElementById('root');
   root.innerHTML = '';
 
-  const done = totalDone();
-  const rem = remaining();
-  const p = pct();
-  const avg = avgPerDay();
-  const dl = daysLeft();
-  const cDate = completionDate();
-  const str = streak();
+  const done   = totalDone();
+  const rem    = remaining();
+  const p      = pct();
+  const avg    = avgPerDay();
+  const dl     = daysLeft();
+  const cDate  = completionDate();
+  const str    = streak();
 
   document.getElementById('header-badge').textContent = `${done} / ${data.totalTarget}`;
 
@@ -604,7 +520,7 @@ function render() {
   `;
   root.appendChild(pb);
 
-  // Two-col: Settings + Forecast
+  // Settings + Forecast
   const tc = document.createElement('div');
   tc.className = 'two-col';
 
@@ -635,7 +551,7 @@ function render() {
   resetBtn.className = 'btn-reset';
   resetBtn.innerHTML = '<i class="ti ti-trash" style="margin-right:4px;font-size:13px;vertical-align:-1px"></i>Reset all entries';
   resetBtn.addEventListener('click', () => {
-    if (confirm('Clear all logged entries? Your target will be kept.')) {
+    if (confirm('Clear all logged entries? Your target and templates will be kept.')) {
       data.entries = {}; saveData(data); selectedDate = todayKey(); render();
     }
   });
@@ -670,8 +586,15 @@ function render() {
 
   // Heatmap
   renderHeatmap(root);
+
+  // ── NEW: Pace Simulator ──
+  renderPaceSimulator(root);
+
+  // ── NEW: Custom Templates ──
+  renderTemplates(root);
 }
 
+// ── Calendar ─────────────────────────────────────────────────────────
 function renderCalendar(root) {
   const section = document.createElement('div');
   section.className = 'calendar-section';
@@ -728,10 +651,10 @@ function renderCalendar(root) {
     grid.appendChild(h);
   });
 
-  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+  const firstDay    = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const tdStr = todayKey();
-  const ent = entries();
+  const ent   = entries();
 
   for (let i = 0; i < firstDay; i++) {
     const e = document.createElement('div');
@@ -740,15 +663,15 @@ function renderCalendar(root) {
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
-    const k = dateKey(viewYear, viewMonth, d);
-    const cell = document.createElement('div');
+    const k      = dateKey(viewYear, viewMonth, d);
+    const cell   = document.createElement('div');
     const future = isFuture(k);
     cell.className = 'cal-cell';
-    if (future) cell.classList.add('future');
-    if (k === tdStr) cell.classList.add('today');
+    if (future)          cell.classList.add('future');
+    if (k === tdStr)     cell.classList.add('today');
     if (k === selectedDate) cell.classList.add('selected');
     const count = ent[k] || 0;
-    if (count > 0) cell.classList.add('has-data');
+    if (count > 0)       cell.classList.add('has-data');
 
     const dateEl = document.createElement('div');
     dateEl.className = 'cal-date-num';
@@ -785,6 +708,7 @@ function renderCalendar(root) {
   root.appendChild(section);
 }
 
+// ── Day Editor ───────────────────────────────────────────────────────
 function renderDayEditor(root) {
   const wrap = document.createElement('div');
   wrap.className = 'day-editor';
@@ -794,9 +718,9 @@ function renderDayEditor(root) {
   const displayDate = new Date(p.y, p.m, p.d).toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
   });
-  const ent = entries();
+  const ent     = entries();
   const current = ent[selectedDate] || 0;
-  const future = isFuture(selectedDate);
+  const future  = isFuture(selectedDate);
 
   const title = document.createElement('div');
   title.className = 'day-editor-title';
@@ -854,8 +778,9 @@ function renderDayEditor(root) {
   root.appendChild(wrap);
 }
 
+// ── Activity Chart ───────────────────────────────────────────────────
 function renderChart(root) {
-  const ent = entries();
+  const ent   = entries();
   const dates = sortedDates();
 
   const section = document.createElement('div');
@@ -891,17 +816,17 @@ function renderChart(root) {
   root.appendChild(section);
 
   const showDates = dates.slice(-30);
-  const labels = showDates.map(k => {
+  const labels    = showDates.map(k => {
     const p = parseKey(k);
     return `${MONTHS[p.m].slice(0,3)} ${p.d}`;
   });
-  const vals = showDates.map(k => ent[k]);
-  const avg = avgPerDay();
+  const vals    = showDates.map(k => ent[k]);
+  const avg     = avgPerDay();
   const avgLine = showDates.map(() => avg > 0 ? Math.round(avg * 10) / 10 : null);
 
-  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-  const tickColor = isDark ? '#6b6a65' : '#9b9a95';
+  const isDark      = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const gridColor   = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+  const tickColor   = isDark ? '#6b6a65' : '#9b9a95';
 
   setTimeout(() => {
     if (chartInst) { chartInst.destroy(); chartInst = null; }
@@ -956,21 +881,22 @@ function renderChart(root) {
   }, 50);
 }
 
+// ── Heatmap ──────────────────────────────────────────────────────────
 function renderHeatmap(root) {
   const section = document.createElement('div');
   section.className = 'heatmap-section';
   section.innerHTML = `<div class="panel-title" style="margin-bottom:4px"><i class="ti ti-calendar-stats" style="color:var(--text2)"></i> Activity heatmap <span style="font-size:12px;color:var(--text3);font-weight:400;margin-left:4px">(last 84 days)</span></div>`;
 
-  const grid = document.createElement('div');
+  const grid    = document.createElement('div');
   grid.className = 'heatmap-grid';
 
-  const today = new Date();
+  const today   = new Date();
   const tooltip = document.getElementById('tooltip');
 
   for (let i = 83; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
-    const k = dateKey(d.getFullYear(), d.getMonth(), d.getDate());
+    const k     = dateKey(d.getFullYear(), d.getMonth(), d.getDate());
     const count = entries()[k] || 0;
     const level = heatLevel(count);
 
@@ -978,15 +904,14 @@ function renderHeatmap(root) {
     cell.className = `heatmap-cell hm-${level}`;
 
     const dateStr = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-    cell.title = count > 0 ? `${dateStr}: ${count} questions` : dateStr;
 
-    cell.addEventListener('mouseenter', (e) => {
+    cell.addEventListener('mouseenter', () => {
       tooltip.textContent = count > 0 ? `${dateStr}: ${count} questions` : `${dateStr}: none`;
       tooltip.classList.add('visible');
     });
     cell.addEventListener('mousemove', (e) => {
       tooltip.style.left = (e.clientX + 12) + 'px';
-      tooltip.style.top = (e.clientY - 28) + 'px';
+      tooltip.style.top  = (e.clientY - 28) + 'px';
     });
     cell.addEventListener('mouseleave', () => {
       tooltip.classList.remove('visible');
@@ -1011,6 +936,198 @@ function renderHeatmap(root) {
   root.appendChild(section);
 }
 
+// ── NEW: Pace Simulator ──────────────────────────────────────────────
+// Shows preset paces (2,3,4,5 q/day) AND current avg as mini cards.
+function renderPaceSimulator(root) {
+  const rem = remaining();
+
+  const div = document.createElement('div');
+  div.className = 'section-divider';
+  div.textContent = 'Pace planner';
+  root.appendChild(div);
+
+  const section = document.createElement('div');
+  section.className = 'pace-section';
+  section.innerHTML = `
+    <div class="panel-title"><i class="ti ti-rocket"></i> Pace simulator</div>
+    <div class="pace-subtitle">How long will it take based on different daily speeds? (${rem} questions remaining)</div>
+  `;
+
+  // Presets: 2,3,4,5 q/day
+  const presets = [2, 3, 4, 5];
+  const avg     = avgPerDay();
+  const maxDays = Math.max(...presets.map(p => daysLeftAtPace(p)), 1);
+
+  const cards = document.createElement('div');
+  cards.className = 'pace-cards';
+
+  presets.forEach(pace => {
+    const days  = rem > 0 ? daysLeftAtPace(pace) : 0;
+    const date  = rem > 0 ? etaDate(days) : 'Done!';
+    const col   = etaColor(days);
+    const isCur = avg > 0 && Math.round(avg) === pace;
+    const pct   = maxDays > 0 ? Math.round((days / maxDays) * 100) : 0;
+
+    const card = document.createElement('div');
+    card.className = 'pace-card';
+    if (isCur) card.classList.add('is-current');
+    if (pace === Math.min(...presets)) card.classList.add('is-fastest');
+
+    let badge = '';
+    if (isCur) badge = `<div class="pace-card-badge badge-current">Your avg</div>`;
+    else if (pace === Math.min(...presets)) badge = `<div class="pace-card-badge badge-fastest">Slowest</div>`;
+
+    card.innerHTML = `
+      ${badge}
+      <div class="pace-qpd">${pace}</div>
+      <div class="pace-qpd-label">Q / day</div>
+      <div class="pace-days ${col}">${rem > 0 ? days + ' days' : 'Done!'}</div>
+      <div class="pace-date">${date || '—'}</div>
+      <div class="pace-bar-track"><div class="pace-bar-fill" style="width:${pct}%"></div></div>
+    `;
+    cards.appendChild(card);
+  });
+
+  section.appendChild(cards);
+
+  // Also show current pace card if it's not one of the presets
+  if (avg > 0 && !presets.includes(Math.round(avg))) {
+    const curDays = daysLeft();
+    const curCol  = etaColor(curDays);
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size:12px;color:var(--text2);padding:8px 10px;background:var(--blue-light);border:1px solid rgba(55,138,221,0.2);border-radius:8px;margin-top:4px;';
+    note.innerHTML = `<i class="ti ti-info-circle" style="margin-right:5px;color:var(--blue)"></i>Your current average is <strong>${avg.toFixed(1)} q/day</strong> → finishes in <strong class="${curCol}">${curDays !== null ? curDays + ' days' : '—'}</strong>${curDays ? ' (' + (etaDate(curDays) || '') + ')' : ''}.`;
+    section.appendChild(note);
+  }
+
+  root.appendChild(section);
+}
+
+// ── NEW: Custom Pace Templates ───────────────────────────────────────
+// User can name + save any q/day speed; all ETAs update live from remaining.
+function renderTemplates(root) {
+  const rem = remaining();
+
+  const section = document.createElement('div');
+  section.className = 'tpl-section';
+  section.innerHTML = `
+    <div class="panel-title"><i class="ti ti-bookmark"></i> Custom pace templates</div>
+    <div class="tpl-subtitle">Save named paces (e.g. "Exam sprint: 7/day"). ETAs auto-update as you log questions.</div>
+  `;
+
+  // Add row
+  const addRow = document.createElement('div');
+  addRow.className = 'tpl-add-row';
+
+  const nameInp = document.createElement('input');
+  nameInp.type = 'text';
+  nameInp.placeholder = 'Template name (e.g. Weekend grind)';
+  nameInp.maxLength = 40;
+
+  const qpdGroup = document.createElement('div');
+  qpdGroup.className = 'tpl-input-group';
+  const qpdLabel = document.createElement('span');
+  qpdLabel.className = 'tpl-input-label';
+  qpdLabel.textContent = 'Q/day:';
+  const qpdInp = document.createElement('input');
+  qpdInp.type = 'number'; qpdInp.min = 1; qpdInp.max = 999; qpdInp.value = 5;
+  qpdGroup.appendChild(qpdLabel);
+  qpdGroup.appendChild(qpdInp);
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn-add-tpl';
+  addBtn.innerHTML = '<i class="ti ti-plus" style="margin-right:4px;font-size:13px;vertical-align:-1px"></i>Save template';
+  addBtn.addEventListener('click', () => {
+    const name = nameInp.value.trim();
+    const qpd  = parseInt(qpdInp.value);
+    if (!name) { nameInp.focus(); return; }
+    if (!qpd || qpd < 1) { qpdInp.focus(); return; }
+    if (!data.templates) data.templates = [];
+    data.templates.push({ id: Date.now(), name, qpd });
+    saveData(data);
+    nameInp.value = '';
+    qpdInp.value  = 5;
+    render();
+  });
+
+  // Allow Enter key on name input to add
+  nameInp.addEventListener('keydown', e => { if (e.key === 'Enter') addBtn.click(); });
+
+  addRow.appendChild(nameInp);
+  addRow.appendChild(qpdGroup);
+  addRow.appendChild(addBtn);
+  section.appendChild(addRow);
+
+  // Template list
+  const templates = data.templates || [];
+
+  if (templates.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'tpl-empty';
+    empty.innerHTML = `<i class="ti ti-bookmark-off" style="font-size:24px;display:block;margin-bottom:6px;color:var(--text3)"></i>No templates yet. Add your first pace above.`;
+    section.appendChild(empty);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'tpl-list';
+
+    templates.forEach((tpl, idx) => {
+      const days  = rem > 0 ? daysLeftAtPace(tpl.qpd) : 0;
+      const date  = rem > 0 ? etaDate(days) : 'Done!';
+      const col   = etaColor(days);
+
+      const card = document.createElement('div');
+      card.className = 'tpl-card';
+
+      // Icon showing the qpd number
+      const icon = document.createElement('div');
+      icon.className = 'tpl-card-icon';
+      icon.textContent = tpl.qpd;
+
+      const body = document.createElement('div');
+      body.className = 'tpl-card-body';
+      body.innerHTML = `
+        <div class="tpl-card-name">${escapeHtml(tpl.name)}</div>
+        <div class="tpl-card-meta">${tpl.qpd} questions/day · ${rem} remaining</div>
+      `;
+
+      const eta = document.createElement('div');
+      eta.className = 'tpl-card-eta';
+      eta.innerHTML = `
+        <div class="tpl-card-days ${col}">${rem > 0 ? days + 'd' : '✓'}</div>
+        <div class="tpl-card-date">${date || '—'}</div>
+      `;
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'btn-del-tpl';
+      delBtn.title = 'Delete template';
+      delBtn.innerHTML = '<i class="ti ti-trash"></i>';
+      delBtn.addEventListener('click', () => {
+        if (confirm(`Delete template "${tpl.name}"?`)) {
+          data.templates.splice(idx, 1);
+          saveData(data);
+          render();
+        }
+      });
+
+      card.appendChild(icon);
+      card.appendChild(body);
+      card.appendChild(eta);
+      card.appendChild(delBtn);
+      list.appendChild(card);
+    });
+
+    section.appendChild(list);
+  }
+
+  root.appendChild(section);
+}
+
+// ── Utility ──────────────────────────────────────────────────────────
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Boot ─────────────────────────────────────────────────────────────
 render();
 </script>
 </body>
